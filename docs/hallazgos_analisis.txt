@@ -1,0 +1,136 @@
+HALLAZGOS DEL ANÁLISIS — SALES DASHBOARD (GLOBAL SUPERSTORE)
+=============================================================
+
+Fuente: Global Superstore (versión limpia de Kaggle)
+Periodo: 2011-01-01 a 2014-12-31
+Notebook: notebooks/01_eda_global.ipynb
+
+
+1. VALIDACIÓN DE DATOS
+----------------------
+- Filas: 51,290. Columnas tras limpieza: 26 originales + 6 calculadas = 32.
+- Columnas eliminadas: Unnamed: 0 (índice heredado) y Record_Count (constante = 1).
+- Nulos: ninguno.
+- Filas duplicadas: ninguna. Row_ID es único en las 51,290 filas.
+- Fechas: conversión sin nulos. Rango 2011-01-01 a 2014-12-31.
+- Lógica de fechas: ningún envío es anterior a su orden. Días de envío: mínimo 0, máximo 7, promedio 3.97.
+- Exportación verificada: al releer el CSV, filas, columnas, ventas, ganancia y clientes coinciden con el original.
+- Nota: Customer_Name no identifica clientes (795 nombres distintos para 4,873 IDs). Los clientes se cuentan por Customer_ID.
+
+
+2. KPIs DE CONTROL (referencia para Power BI)
+---------------------------------------------
+Ventas totales ........... 12,642,905
+Ganancia total ........... 1,467,457.29
+Margen de ganancia ....... 11.61%
+Órdenes únicas ........... 25,035
+Clientes únicos .......... 4,873
+Cantidad vendida ......... 178,312
+Ticket promedio .......... 505.01 por orden
+Días promedio de envío ... 3.97
+
+
+3. TENDENCIA ANUAL
+-----------------
+Año    Ventas       Ganancia     Margen    Crecimiento ventas
+2011   2,259,511    248,941      11.02%    —
+2012   2,677,493    307,415      11.48%    +18.50%
+2013   3,405,860    406,935      11.95%    +27.20%
+2014   4,300,041    504,166      11.72%    +26.25%
+
+Hallazgos:
+- Las ventas casi se duplicaron entre 2011 y 2014 (+90%).
+- El mayor crecimiento fue entre 2012 y 2013 (+27.2%), y se mantuvo en 2014 (+26.3%).
+- El margen se mantuvo entre 11.0% y 12.0%. El crecimiento vino de vender más, no de vender con mejor margen.
+
+
+4. RENTABILIDAD POR CATEGORÍA
+-----------------------------
+Categoría         Ventas       Ganancia     Margen
+Technology        4,744,691    663,779      13.99%
+Furniture         4,110,884    285,205       6.94%
+Office Supplies   3,787,330    518,474      13.69%
+
+Hallazgos:
+- Furniture tiene el margen más bajo: 6.9%, frente a 14.0% en Technology y 13.7% en Office Supplies.
+- Furniture representa el 32.5% de las ventas, pero solo el 19.4% de la ganancia.
+
+
+5. RENTABILIDAD POR MERCADO
+---------------------------
+Mercado    Ventas       Ganancia     Margen
+APAC       3,585,833    436,000      12.16%
+EU         2,938,139    372,830      12.69%
+US         2,297,354    286,397      12.47%
+LATAM      2,164,687    221,643      10.24%
+EMEA         806,184     43,898       5.45%
+Africa       783,776     88,872      11.34%
+Canada        66,932     17,817      26.62%
+
+Hallazgos:
+- EMEA tiene el margen más bajo de los mercados grandes: 5.5%. Su ganancia (44 mil) es una décima parte de la de APAC (436 mil), con ventas de apenas un cuarto.
+- Canada muestra 26.6% de margen, pero con solo 67 mil en ventas la muestra es pequeña. No conviene sacar conclusiones de ese número.
+
+
+6. SUBCATEGORÍAS CON MENOR GANANCIA
+-----------------------------------
+Subcategoría   Ventas     Ganancia    Margen
+Tables         757,034    -64,083     -8.47%
+Supplies       243,090     22,583      9.29%
+Fasteners       83,254     11,525     13.84%
+Labels          73,433     15,011     20.44%
+Envelopes      170,926     29,601     17.32%
+
+Hallazgos:
+- Tables es la única subcategoría con pérdida neta: vende 757 mil y pierde 64 mil.
+- Las subcategorías con menor margen pertenecen a dos categorías distintas (Tables y Furniture; Supplies y Office Supplies). El problema no es de una sola categoría, sino de algunos productos.
+- Tables representa el 18.4% de las ventas de Furniture (no la mayor parte, como indicaba una versión anterior de este documento).
+
+
+7. EFECTO DE LOS DESCUENTOS
+---------------------------
+Descuento   Filas     Ventas      Ganancia      Margen
+0%          29,009    6,992,734   1,770,695     25.32%
+1–10%        4,679    1,962,633     338,189     17.23%
+11–20%       6,274    1,757,296     173,255      9.86%
+21–30%         967      382,540     -21,156     -5.53%
+>30%        10,361    1,547,702    -793,526    -51.27%
+
+Hallazgos:
+- El margen cae de forma continua al aumentar el descuento.
+- A partir de 21% de descuento, el margen es negativo.
+- Las transacciones con más de 30% de descuento son el 20% de las filas y pierden 793 mil.
+- Sin esas transacciones, la ganancia total sería de unos 2.26 millones (en lugar de 1.47 millones).
+
+Descuentos mayores a 30% por subcategoría (ganancia):
+- Tables ........ −120,581 (351 filas)
+- Bookcases ..... −89,880 (562 filas)
+- Phones ........ −87,191 (631 filas)
+- Machines ...... −72,125 (341 filas)
+- Chairs ........ −65,478 (525 filas)
+
+Estas cinco subcategorías suman −435 mil, más de la mitad de la pérdida total. Pertenecen a distintas categorías (Furniture, Technology), así que el problema es transversal.
+
+
+8. CONCENTRACIÓN DE VENTAS (PARETO)
+-----------------------------------
+- 1,066 de 3,788 productos (28.1%) generan el 80% de las ventas.
+- Concentración moderada: no justifica enfocar el dashboard en un puñado de productos.
+
+
+9. CONCLUSIONES Y RECOMENDACIONES
+---------------------------------
+Conclusión principal: el crecimiento de ventas (+90% en 4 años) no vino acompañado de mejor margen. Los descuentos altos explican la mayor parte de la pérdida.
+
+Recomendaciones:
+1. Establecer un tope general de descuento alrededor de 20%. Por encima de ese nivel, la operación pierde dinero en conjunto.
+2. Revisar primero las subcategorías con más pérdida con descuentos altos (Tables, Bookcases, Phones, Machines, Chairs).
+3. Revisar la estructura de costos de Furniture y de EMEA, que tienen los márgenes más bajos.
+4. Monitorear el margen por rango de descuento en el dashboard, para medir el efecto de la política.
+
+
+10. LIMITACIONES
+----------------
+- Los datos son de 2011 a 2014. Conviene verificar si la tendencia se mantiene con datos más recientes.
+- El análisis de descuentos muestra asociación, no causalidad: los productos con más descuento podrían ser también los de menor costo o los de menor demanda. Para confirmarlo se necesitaría más información de costos.
+- Canada tiene muestra pequeña (67 mil en ventas).

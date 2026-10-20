@@ -59,6 +59,23 @@ Otros puntos:
 
 ---
 
+### Tendencia anual
+
+| Año | Ventas | Ganancia | Margen | Crecimiento de ventas |
+|---|---|---|---|---|
+| 2011 | 2,259,511 | 248,941 | 11.02% | — |
+| 2012 | 2,677,493 | 307,415 | 11.48% | +18.50% |
+| 2013 | 3,405,860 | 406,935 | 11.95% | +27.20% |
+| 2014 | 4,300,041 | 504,166 | 11.72% | +26.25% |
+
+Las ventas crecieron cada año, pero el margen se mantuvo entre 11% y 12%. El crecimiento vino de vender más, no de vender con mejor margen.
+
+### Concentración de ventas (Pareto)
+
+Solo **1,066 de 3,788 productos (28.1%)** generan el 80% de las ventas. Es una concentración moderada: no justifica enfocar el negocio en unos pocos productos, pero sí indica que el catálogo tiene una cola larga de artículos con poco volumen.
+
+---
+
 ## Dataset
 
 **Global Superstore** (Kaggle, versión limpia): 51,290 transacciones, 7 mercados, 147 países.
@@ -82,11 +99,31 @@ sales-dashboard/
 │   └── 01_eda_global.ipynb   # Limpieza, validación, análisis y exportación
 ├── dashboards/
 │   └── sales_dashboard.pbix  # Dashboard de Power BI
+├── docs/
+│   └── hallazgos_analisis.txt  # Desarrollo completo de cada hallazgo
 ├── images/
 │   └── dashboard_pagina1.png
 ├── requirements.txt
 └── README.md
 ```
+
+---
+
+## Proceso y problemas resueltos
+
+El dataset se trabajó en tres etapas: limpieza y validación en Python, análisis con conclusiones, y construcción del dashboard en Power BI. Durante el proceso aparecieron problemas que conviene conocer:
+
+**1. Dataset equivocado al inicio.** El archivo descargado primero era *Sample Superstore* (9,994 filas), no *Global Superstore* (51,290). Se detectó porque el conteo de filas no coincidía con el esperado en el paso de carga, y se reemplazó el archivo antes de continuar.
+
+**2. Fechas interpretadas mal.** En una versión anterior del análisis, un promedio de envío de 107 días delató un formato de fecha invertido (día/mes). La conversión explícita con `format='%d/%m/%Y'` lo corrigió y el promedio quedó en 3.96 días.
+
+**3. Configuración regional en Power BI.** Al importar el CSV, Power BI leyó el punto decimal como separador de miles con la configuración en español. El resultado fue que `Profit` sumaba $4,576 millones en lugar de $1.47 millones. Se corrigió convirtiendo las columnas decimales con *Cambiar tipo → Usando la configuración regional → Inglés (Estados Unidos)*.
+
+**4. Descuentos redondeados a enteros.** Power Query detectó `Discount` como entero a partir de las primeras 1,000 filas, donde casi todos los valores son cero. Los descuentos de 0.20 quedaron en 0 y los de 0.85 en 1. El gráfico de descuentos mostraba solo dos rangos. Se corrigió con la misma conversión a decimal.
+
+**5. Verificación con KPIs de control.** Antes de construir visuales, se calcularon en Python los totales de referencia (ventas, ganancia, margen, órdenes, clientes) y se compararon con cada medida de Power BI. Esto permitió detectar los errores 1 a 4 antes de que llegaran al dashboard.
+
+**Lección principal:** en un dataset de 50 mil filas, una conversión automática basada en una muestra pequeña puede cambiar los resultados. Conviene verificar los totales después de cada transformación.
 
 ---
 
