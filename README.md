@@ -10,7 +10,7 @@ Análisis de ventas y rentabilidad de una empresa global de suministros de ofici
 
 ## Dashboard
 
-![Dashboard de ventas]("\images\dashboard_pagina1.png")
+![Dashboard de ventas](\images\dashboard_pagina1.png)
 
 El dashboard incluye: 7 KPIs, tendencia mensual de ventas y ganancia, ventas y margen por categoría, margen por mercado, rentabilidad por subcategoría y margen por rango de descuento. Dos slicers (Año y Mercado) filtran todos los visuales.
 
