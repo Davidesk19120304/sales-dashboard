@@ -9,7 +9,7 @@ Análisis de ventas y rentabilidad de una empresa global de suministros de ofici
 ---
 
 ## Dashboard
-
+|---|---|
 ![Dashboard de ventas](/images/dashboard_pagina1.png)
 
 El dashboard incluye: 7 KPIs, tendencia mensual de ventas y ganancia, ventas y margen por categoría, margen por mercado, rentabilidad por subcategoría y margen por rango de descuento. Dos slicers (Año y Mercado) filtran todos los visuales.
@@ -30,7 +30,7 @@ El dashboard incluye: 7 KPIs, tendencia mensual de ventas y ganancia, ventas y m
 | Mercado con menor margen | *EMEA*: 5.5% |
 
 ### Conclusión: descuentos
-
+|---|---|
 El margen baja de forma continua al aumentar el descuento, y es negativo a partir de **21%**:
 
 | Descuento | Filas | Ventas | Ganancia | Margen |
@@ -71,13 +71,13 @@ Otros puntos:
 Las ventas crecieron cada año, pero el margen se mantuvo entre 11% y 12%. El crecimiento vino de vender más, no de vender con mejor margen.
 
 ### Concentración de ventas (Pareto)
-
+|---|---|
 Solo **1,066 de 3,788 productos (28.1%)** generan el 80% de las ventas. Es una concentración moderada: no justifica enfocar el negocio en unos pocos productos, pero sí indica que el catálogo tiene una cola larga de artículos con poco volumen.
 
 ---
 
 ## Dataset
-
+|---|---|
 **Global Superstore** (Kaggle, versión limpia): 51,290 transacciones, 7 mercados, 147 países.
 
 Decisiones de limpieza:
@@ -89,7 +89,7 @@ Decisiones de limpieza:
 ---
 
 ## Estructura del proyecto
-
+|---|---|
 ```
 sales-dashboard/
 ├── data/
@@ -110,7 +110,7 @@ sales-dashboard/
 ---
 
 ## Proceso y problemas resueltos
-
+|---|---|
 El dataset se trabajó en tres etapas: limpieza y validación en Python, análisis con conclusiones, y construcción del dashboard en Power BI. Durante el proceso aparecieron problemas que conviene conocer:
 
 **1. Dataset equivocado al inicio.** El archivo descargado primero era *Sample Superstore* (9,994 filas), no *Global Superstore* (51,290). Se detectó porque el conteo de filas no coincidía con el esperado en el paso de carga, y se reemplazó el archivo antes de continuar.
@@ -160,7 +160,7 @@ Para comprobar que Power BI lee bien los datos:
 ---
 
 ## Notas técnicas
-
+|---|---|
 - **Formato decimal:** el CSV se exporta con punto decimal y sin índice. Si los totales de Power BI no coinciden, convierte `Sales`, `Profit`, `Shipping_Cost` y `Discount` con *Cambiar tipo → Usando la configuración regional → Número decimal, Inglés (Estados Unidos)*.
 - **Medidas principales:** `Ventas Totales`, `Ganancia Total`, `Margen de Ganancia`, `Órdenes Únicas`, `Clientes Únicos`, `Ticket Promedio`, `Cantidad Vendida`.
 - **Columna calculada:** `Rango Descuento`, con un orden auxiliar para que los rangos se muestren en su secuencia lógica.
@@ -168,7 +168,7 @@ Para comprobar que Power BI lee bien los datos:
 ---
 
 ## Limitaciones
-
+|---|---|
 - Los datos son de 2011 a 2014. Conviene verificar si la tendencia se mantiene con datos más recientes.
 - El análisis de descuentos muestra asociación, no causalidad. Los productos con más descuento podrían también ser los de menor costo o menor demanda. Confirmarlo requiere datos de costos.
 - Canadá tiene una muestra pequeña (67 mil en ventas), así que su margen de 26.6% no es concluyente.
