@@ -4,8 +4,7 @@ Análisis de ventas y rentabilidad de una empresa global de suministros de ofici
 
 **Pregunta de negocio:** ¿dónde se gana y dónde se pierde dinero, y qué papel juegan los descuentos?
 
-🔗 **Dashboard publicado:** [https://app.powerbi.com/links/OaFPP843Ff?ctid=3374819b-3f7f-4153-ab6a-fd4afd7b386c&pbi_source=linkShare]
-
+🔗 **Dashboard publicado:** [https://app.powerbi.com/reportEmbed?reportId=5abb533d-56b0-499b-aa71-11fdff83071b&autoAuth=true&ctid=3374819b-3f7f-4153-ab6a-fd4afd7b386c].
 ---
 
 ## Dashboard
